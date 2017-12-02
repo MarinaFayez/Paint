@@ -9,7 +9,7 @@ run the (free draw colormap and colors.html)
 
 ## Functions:
 
-![pencil](https://user-images.githubusercontent.com/24494897/33520405-e4a098b8-d7c2-11e7-8f47-c263b123f382.jpg): free drowing
+![pencil](https://user-images.githubusercontent.com/24494897/33520405-e4a098b8-d7c2-11e7-8f47-c263b123f382.jpg): free drawing
 
 ![line](https://user-images.githubusercontent.com/24494897/33520403-d6827968-d7c2-11e7-8ebe-3d80d48871c8.png): draw lines
 
@@ -24,12 +24,25 @@ background
 
 ![ellipse](https://user-images.githubusercontent.com/24494897/33520373-59d0cbd6-d7c2-11e7-9945-963d396f226a.png): Draw ellipse
 
-![rectangleresize](https://user-images.githubusercontent.com/24494897/33520375-69266ea6-d7c2-11e7-9cb1-a30ff5fbd9a3.png): Draw 
-
 ![roundrectangle](https://user-images.githubusercontent.com/24494897/33520392-bf4c3f68-d7c2-11e7-9ad4-59b2bf127e36.png)
-: round Rect
+:Draw round Rect
 
 ![save](https://user-images.githubusercontent.com/24494897/33520382-8f621b4c-d7c2-11e7-90ec-cb12030098bb.jpg): save image
 
 ![clear](https://user-images.githubusercontent.com/24494897/33520354-153f475e-d7c2-11e7-8aac-443b9dc9eae2.jpg): clear objects
 
+## Choose Color
+
+![2](https://user-images.githubusercontent.com/24494897/33520436-7ffc4c80-d7c3-11e7-9318-4ea32b8e060d.PNG)
+
+choose pencile color ![3](https://user-images.githubusercontent.com/24494897/33520441-8339f1e0-d7c3-11e7-943e-dbf8c482d186.PNG) or browse from colormap color.
+
+![4](https://user-images.githubusercontent.com/24494897/33520450-c9d337ba-d7c3-11e7-89dd-4d23034c86be.PNG)
+
+## Choose thickness:
+![1](https://user-images.githubusercontent.com/24494897/33520452-d451b09a-d7c3-11e7-8814-ec4e53a6724d.PNG)
+
+## Resize Rectangle and Circle
+![5](https://user-images.githubusercontent.com/24494897/33520458-f290f4c6-d7c3-11e7-822f-bb2a17fd84a6.PNG)
+
+choose the H: height, W:width, D: Diameter
