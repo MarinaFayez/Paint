@@ -1,9 +1,9 @@
 # Paint
 paint by html and canvas
 
-Installation:
+## Installation:
 
-run the (free draw colormap and colors.html)
+run the Paint.html
 
 ![capture](https://user-images.githubusercontent.com/24494897/33520270-4975bb04-d7c0-11e7-9dd1-3108e8d00d28.PNG)
 
@@ -34,7 +34,6 @@ background
 ## Choose Color
 
 ![2](https://user-images.githubusercontent.com/24494897/33520436-7ffc4c80-d7c3-11e7-9318-4ea32b8e060d.PNG)
-
 choose pencile color ![3](https://user-images.githubusercontent.com/24494897/33520441-8339f1e0-d7c3-11e7-943e-dbf8c482d186.PNG) or browse from colormap color.
 
 ![4](https://user-images.githubusercontent.com/24494897/33520450-c9d337ba-d7c3-11e7-89dd-4d23034c86be.PNG)
@@ -45,4 +44,4 @@ choose pencile color ![3](https://user-images.githubusercontent.com/24494897/335
 ## Resize Rectangle and Circle
 ![5](https://user-images.githubusercontent.com/24494897/33520458-f290f4c6-d7c3-11e7-822f-bb2a17fd84a6.PNG)
 
-choose the H: height, W:width, D: Diameter
+choose the W: width, L: length, D: Diameter
