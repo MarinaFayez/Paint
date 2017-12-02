@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <script type="text/javascript" src="Paint.js"></script>
+
+
+
+ 
+ 
+    <body onload="init()">
+<menu type="toolbar" >
+ <li>
+  <menu label="Actions">
+        <input type="button" style="position:absolute;top:85%;left:5%;width:5%;height:5%;background:green;cursor: grab;" id="green" onclick="certainColor(this)">
+        <input type="button" style="position:absolute;top:85%;left:10%;width:5%;height:5%;background:blue;cursor: grab;" id="blue" onclick="certainColor(this)">
+        <input type="button" style="position:absolute;top:85%;left:15%;width:5%;height:5%;background:red;cursor: grab;" id="red" onclick="certainColor(this)">
+        <input type="button" style="position:absolute;top:85%;left:20%;width:5%;height:5%;background:cyan;cursor: grab;" id="cyan" onclick="certainColor(this)">    
+        <input type="button" style="position:absolute;top:90%;left:5%;width:5%;height:5%;background:yellow;cursor: grab;" id="yellow" onclick="certainColor(this)">
+        <input type="button" style="position:absolute;top:90%;left:10%;width:5%;height:5%;background:orange;cursor: grab;" id="orange" onclick="certainColor(this)">
+        <input type="button" style="position:absolute;top:90%;left:15%;width:5%;height:5%;background:violet;cursor: grab;" id="violet" onclick="certainColor(this)">
+        <input type="button" style="position:absolute;top:90%;left:20%;width:5%;height:5%;background:black;cursor: grab;" id="black" onclick="certainColor(this)">
+        <input type="button" name="option" id="draw" size="23" onclick="action(this)" style="position:absolute;top:10%;left:2%;width: 30px;height: 30px;background:url(./images/pencil.jpg) no-repeat;cursor: pointer;">
+        <input type="button" name="option" id="resizeRect" size="23" onclick="action(this)" style="position:absolute;top:10%;left:2%;width: 30px;height: 30px;margin : 30px 0px 0px;background:url(./images/rectangleResize.png) no-repeat;cursor: pointer;">
+        <input type="button" name="option" id="resizeCircle" size="23" onclick="action(this)" style="position:absolute;top:10%;left:2%;width: 30px;height: 30px;margin : 60px 0px 0px;background:url(./images/resize_circle.jpg) no-repeat;cursor: pointer;">
+        <input type="button" name="option"  size="23" onclick="erase()" style="position:absolute;top:10%;left:2%;width: 30px;height: 30px;margin : 90px 0px 0px;background:url(./images/clear.jpg) no-repeat;cursor: pointer;">		
+		<input type="button" name="option"  size="23" onclick="CanvasBackground()" style="position:absolute;top:10%;left:2%;width: 30px;height: 30px;margin : 60px 30px 0px;background:url(./images/brush.png) no-repeat;cursor: pointer;">		
+		<input type="button" name="option"  size="23" onclick="RectBackground()" style="position:absolute;top:10%;left:2%;width: 30px;height: 30px;margin : 30px 30px 0px;background:url(./images/brushRect.png) no-repeat;cursor: pointer;">		
+		<input type="button" name="option" id="drawEllipse" size="23" onclick="action(this)" style="position:absolute;top:10%;left:2%;width: 30px;height: 30px;margin : 90px 30px 0px;background:url(./images/ellipse.png) no-repeat;cursor: pointer;">		
+		<input type="button" name="option" id="drawRoundRect" size="23" onclick="action(this)" style="position:absolute;top:10%;left:2%;width: 30px;height: 30px;margin : 120px 30px 0px;background:url(./images/roundRectangle.png) no-repeat;cursor: pointer;">		
+		<input type="button" name="option" id="drawLine" size="23" onclick="action(this)" style="position:absolute;top:10%;left:2%;width: 30px;height: 30px;margin : 0px 30px 0px;background:url(./images/Line.png) no-repeat;cursor: pointer;">				
+		<a onclick="save(this)"style="position:absolute;top:10%;left:2%;width: 30px;height: 30px;margin : 120px 0px 0px;background:url(./images/save.jpg) no-repeat;cursor: pointer;"></a> 
+</menu> 
+ </li>  
+</menu>
+ 		<input type="button" id ="2" onclick="Thickness(this)" style="position:absolute;top:10%;left:2%;width: 70px;height: 35px;margin : 150px 0px 0px;background:url(./images/substract2.png) no-repeat;cursor: pointer;">
+   		<input type="button" id="5" onclick="Thickness(this)" style="position:absolute;top:10%;left:2%;width: 70px;height: 35px;margin : 185px 0px 0px;background:url(./images/substract3.png) no-repeat;cursor: pointer;">
+   		<input type="button" id="7" onclick="Thickness(this)" style="position:absolute;top:10%;left:2%;width: 70px;height: 35px;margin : 220px 0px 0px;background:url(./images/substract.png) no-repeat;cursor: pointer;">
+   		<input type="button" id="10" onclick="Thickness(this)" style="position:absolute;top:10%;left:2%;width: 70px;height: 35px;margin : 255px 0px 0px;background:url(./images/substract1.png) no-repeat;cursor: pointer;">
+   		<input type="file" id="file" name="file" accept=".jpg, .jpeg, .png" style="position:absolute;top:3%;cursor: pointer;">
+  		<canvas id="can" style="position:absolute;top:7.5%;left:10%;box-shadow: inset -2px -2px 5px 1px black"></canvas><br/>
+        <canvas id="can2" style="position:absolute;top:85%;left:75%;border:3px solid #000000;"></canvas>
+	    <input type="number" id="width_no" min="1" max="100"  style=" position:absolute;top:85%;left:75%;width: 50px;margin : 65px 10px 15px;">
+	    <input type="number" id="height_no" min="1" max="100" " style="position:absolute;top:85%;left:75%;width: 50px;margin : 65px 80px 15px;">
+	    <input type="number" id="diameter_no" min="1" max="50" " style="position:absolute;top:85%;left:75%;width: 50px;margin : 65px 150px 15px;">
+	    <canvas id="current_color" style="position:absolute;top:90%;left:5px;width:4%;height:4%;" ></canvas>	   
+	    <input type="color" id="ColorMap" style="position:absolute;top:95%;left:5px;width:4%;height:4%;">
+	  	
+
+	  	</body>
+ </html>
