@@ -364,7 +364,8 @@
     	
    	else if (Action=="resizeRect")
     	{
-    		if (Mouse == 'down') {
+    		if (Mouse == 'down') 
+    		{
     			drag=true;
                 }
             if (Mouse == 'up' || Mouse == "out") {
@@ -372,8 +373,8 @@
             }
             if (Mouse == 'move') {
                 if (drag) {
-                	width =e.clientX - htmlCanvas.offsetLeft;
-                	height = e.clientY - htmlCanvas.offsetTop;
+                	width =e.clientX - canvas.offsetLeft;
+                	height = e.clientY - canvas.offsetTop;
 					ResizeRect();
 					 RedrawObjects();
 				Circle();
@@ -387,7 +388,11 @@
     		if (Mouse == 'down') {
     			circle.startX = canvas.width/2;
                 circle.startY =  canvas.height/2;
-    			drag=true;
+                X_ =e.clientX - canvas.offsetLeft;
+            	Y_ = e.clientY - canvas.offsetTop;
+                r_=Math.sqrt(Math.pow((X_ - circle.startX ), 2) + Math.pow((Y_- circle.startY), 2));
+if (r_==r)
+{		drag=true;}
                 }
             
             if (Mouse == 'up' || Mouse == "out") {
@@ -454,8 +459,9 @@
                    
                    ellipse_parameter[ellipse_parameter.length]=centerEllipseX;
                    ellipse_parameter[ellipse_parameter.length]=centerEllipseY;
-                   ellipse_parameter[ellipse_parameter.length]=currX_Ellipse-centerEllipseX;
-                   ellipse_parameter[ellipse_parameter.length]=currY_Ellipse-centerEllipseY;
+
+                   ellipse_parameter[ellipse_parameter.length]=Math.abs(currX_Ellipse-centerEllipseX);
+                   ellipse_parameter[ellipse_parameter.length]=Math.abs(currY_Ellipse-centerEllipseY);
                    ellipse_parameter[ellipse_parameter.length]=color;
                    ellipse_parameter[ellipse_parameter.length]=PenThickness;
 
@@ -468,7 +474,7 @@
                         ResizeRect();  
   	  	 				Circle();
   	  	 				RedrawObjects();
-	        	        drawEllipse(centerEllipseX ,centerEllipseY,currX_Ellipse-centerEllipseX,currY_Ellipse-centerEllipseY,color,PenThickness);			                   
+	        	        drawEllipse(centerEllipseX ,centerEllipseY,Math.abs(currX_Ellipse-centerEllipseX),Math.abs(currY_Ellipse-centerEllipseY),color,PenThickness);			                   
 
         	        
                     }
@@ -485,11 +491,25 @@
      
                 if (Mouse == 'up' || Mouse == "out") {
                    drag = false;
-                   
+                   if ((currX_RoundRect-centerRoundRectX)>0&&(currY_RoundRect-centerRoundRectY)>0){
                    roundRect_parameter[roundRect_parameter.length]=centerRoundRectX;
                    roundRect_parameter[roundRect_parameter.length]=centerRoundRectY;
-                   roundRect_parameter[roundRect_parameter.length]=currX_RoundRect-centerRoundRectX;
-                   roundRect_parameter[roundRect_parameter.length]=currY_RoundRect-centerRoundRectY;
+                   }
+                   else if ((currX_RoundRect-centerRoundRectX)<0&&(currY_RoundRect-centerRoundRectY)<0){
+                	   roundRect_parameter[roundRect_parameter.length]=currX_RoundRect;
+                       roundRect_parameter[roundRect_parameter.length]=currY_RoundRect;
+                       }
+                   else if ((currX_RoundRect-centerRoundRectX)>0&&(currY_RoundRect-centerRoundRectY)<0){
+                	   roundRect_parameter[roundRect_parameter.length]=centerRoundRectX;
+                       roundRect_parameter[roundRect_parameter.length]=currY_RoundRect;
+                       }
+                   else if ((currX_RoundRect-centerRoundRectX)<0&&(currY_RoundRect-centerRoundRectY)>0){
+                	   roundRect_parameter[roundRect_parameter.length]=currX_RoundRect;
+                       roundRect_parameter[roundRect_parameter.length]=centerRoundRectY;
+                       }
+                
+                   roundRect_parameter[roundRect_parameter.length]=Math.abs(currX_RoundRect-centerRoundRectX);
+                   roundRect_parameter[roundRect_parameter.length]=Math.abs(currY_RoundRect-centerRoundRectY);   
                    roundRect_parameter[roundRect_parameter.length]=color;
                    roundRect_parameter[roundRect_parameter.length]=PenThickness;
 
@@ -503,13 +523,22 @@
                         ResizeRect();  
   	  	 				Circle();
   	  	 				RedrawObjects();
-	        	        roundRect(centerRoundRectX ,centerRoundRectY,currX_RoundRect-centerRoundRectX,currY_RoundRect-centerRoundRectY,color,PenThickness);			                   
-
-        	        
+  	  	 			if ((currX_RoundRect-centerRoundRectX)>0&&(currY_RoundRect-centerRoundRectY)>0){
+	        	        roundRect(centerRoundRectX ,centerRoundRectY,currX_RoundRect-centerRoundRectX,currY_RoundRect-centerRoundRectY,color,PenThickness);
+  	  	 			}
+  	  	 			else if ((currX_RoundRect-centerRoundRectX)<0&&(currY_RoundRect-centerRoundRectY)>0){
+	        	        roundRect(currX_RoundRect ,centerRoundRectY,Math.abs(currX_RoundRect-centerRoundRectX),Math.abs(currY_RoundRect-centerRoundRectY),color,PenThickness);
                     }
-              }			
+  	  	 			else if((currX_RoundRect-centerRoundRectX)>0&&(currY_RoundRect-centerRoundRectY)<0){
+        	        roundRect(centerRoundRectX ,currY_RoundRect,Math.abs(currX_RoundRect-centerRoundRectX),Math.abs(currY_RoundRect-centerRoundRectY),color,PenThickness);
+                    }
+                    else if((currX_RoundRect-centerRoundRectX)<0&&(currY_RoundRect-centerRoundRectY)<0){
+        	        roundRect(currX_RoundRect ,currY_RoundRect,Math.abs(currX_RoundRect-centerRoundRectX),Math.abs(currY_RoundRect-centerRoundRectY),color,PenThickness);
+                    }
+                }			
     	}	
    }
+   	}
     
  // draw ellipse   
     function drawEllipse(EllipseCenterX,EllipseCenterY,radiusX, radiusY,colorEllipse,thickness) {
@@ -601,24 +630,3 @@
         
 	}
 		}
-
-
-/*var CropImage = new Image();
-
-CropImage.onload = function() {
-  // draw cropped image
-  var sourceX = 150;
-  var sourceY = 0;
-  var sourceWidth = 150;
-  var sourceHeight = 150;
-  var destWidth = sourceWidth;
-  var destHeight = sourceHeight;
-  var destX = canvas.width / 2 - destWidth / 2;
-  var destY = canvas.height / 2 - destHeight / 2;
-
-  context.drawImage(CropImage, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
-};
-CropImage.src = 'http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg';
-    
-
-*/
