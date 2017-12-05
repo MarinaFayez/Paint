@@ -14,12 +14,12 @@
     var linePoints=[];
 
     var Action="resizeRect";  
-	var width=canvas.width/2,
-		height=canvas.height/2;
+	var  widthRect,heightRect=0;
     var color = "black",
         PenThickness = 2;
-    var img;
     var rect_background;
+    var rect_background="black";
+    var startRectX,startRectY=0;
 
     function init() {
     	canvas = document.getElementById('can');
@@ -31,6 +31,11 @@
         canvas.width=3*window.innerWidth/4; 
         canvas.height= 3*window.innerHeight/4;
 
+        startRectX=Math.round(canvas.width/4);
+    	startRectY=Math.round(canvas.height/4);
+    	widthRect=canvas.width/2;
+		heightRect=canvas.height/2;
+		
         //canvas 2 for table
         canvas2 = document.getElementById('can2');
 		canvas2.width=210;
@@ -44,13 +49,13 @@
         canvas4 = document.getElementById('current_color');
         currentColor_context=canvas4.getContext("2d");
 
-        width=canvas.width/2,
-		height=canvas.height/2;
-        w = canvas.width;
-        h = canvas.height;
+		ResizeRect(startRectX,startRectY,widthRect,heightRect);
+		
+	 	document.getElementById("height_no").max = canvas.height;
+	 	document.getElementById("width_no").max = canvas.width;
+	 	
 		circle.radius=Math.min(canvas.width,canvas.height)/2;
         Circle(); 	    
-        initRect();
         Table();
 
         canvas.addEventListener("mousemove", function (e) {
@@ -115,14 +120,14 @@
  
  // resize shape through table numbers   
     function wth(){                                     //resize width
-    	width=document.getElementById("width_no").value;
-    	ResizeRect();
+    	widthRect=document.getElementById("width_no").value;
+		ResizeRect(startRectX,startRectY,widthRect,heightRect);
     	 RedrawObjects();
     	Circle();
     }
     function hgt(){                                //resize height
-        	height=document.getElementById("height_no").value;
-        	ResizeRect();
+        	heightRect=document.getElementById("height_no").value;
+    		ResizeRect(startRectX,startRectY,widthRect,heightRect);
         	 RedrawObjects();
         	Circle();
         }  
@@ -267,7 +272,7 @@
             colorPoint=[];
             thicknessPoint=[];
             linePoints=[];
-            ResizeRect();
+    		ResizeRect(startRectX,startRectY,widthRect,heightRect);
             Circle();
             
         }
@@ -287,7 +292,7 @@
 // resize circle with certain center
  	function ResizeCircle(){
  	   contextCircle.clearRect(0,0, canvas.width, canvas.height);
- 	   ResizeRect();     
+		ResizeRect(startRectX,startRectY,widthRect,heightRect);
  	  RedrawObjects();
  	   contextCircle.beginPath();
  	   contextCircle.strokeStyle = "black";   
@@ -299,35 +304,18 @@
  	   contextCircle.closePath();
      }
    
-// init rect with certain center
-    function initRect(){
-    	contextRect.beginPath();
-        contextRect.fillStyle =rect_background;   
-  	   width=Math.min(canvas.width,canvas.height)/2;		//init value of Rect width
-  	   height=width;		//init value of Rect height
- 	   contextRect.fillRect(canvas.width/2-width/2,canvas.height/2-height/2 ,width,height);
-		document.getElementById("width_no").max = canvas.width;
-	 	document.getElementById("width_no").value =Math.round( width); 
-	 	document.getElementById("height_no").max = canvas.height;
-	 	document.getElementById("height_no").value = Math.round(height);
-  	   contextRect.stroke();  
-    	  contextRect.closePath();
-        }
      
-    function ResizeRect(){
-    	contextRect.beginPath();
- 	   contextRect.clearRect(0,0, canvas.width,canvas.height); 
- 	    contextRect.fillStyle =rect_background; 
- 	   contextRect.fillRect(canvas.width/2-width/2,canvas.height/2-height/2 ,width,height);
- 	   Redraw();
-		document.getElementById("width_no").max = canvas.width;
-	 	document.getElementById("width_no").value = Math.round(width); 
-	 	document.getElementById("height_no").max = canvas.height;
-	 	document.getElementById("height_no").value = Math.round(height);
-	 	contextRect.stroke();  
- 	 	contextRect.closePath();	
-    }
-    
+    function ResizeRect(pointX,pointY,widthRect,heightRect){
+   	   contextRect.clearRect(0,0, canvas.width,canvas.height); 
+     	contextRect.beginPath();
+  	    contextRect.fillStyle =rect_background; 
+  	   contextRect.fillRect(pointX,pointY,widthRect,heightRect);
+  	   Redraw();
+ 	 	document.getElementById("width_no").value = Math.round(widthRect); 
+ 	 	document.getElementById("height_no").value = Math.round(heightRect);
+ 	 	contextRect.stroke();  
+  	 	contextRect.closePath();	
+     }
 
     
 // get the postion of x and y on the canvas 
@@ -362,26 +350,83 @@
         }
     	}
     	
-   	else if (Action=="resizeRect")
-    	{
-    		if (Mouse == 'down') 
-    		{
-    			drag=true;
+   	    else if (Action=="resizeRect")
+        {
+            if (Mouse == 'down') 
+            {
+                
+                drag=true;
                 }
             if (Mouse == 'up' || Mouse == "out") {
                drag = false;
+            document.getElementById("can").style.cursor = "pointer";
+
             }
             if (Mouse == 'move') {
+                curr_x=e.clientX - canvas.offsetLeft;
+                curr_y=e.clientY - canvas.offsetTop;
+                
                 if (drag) {
-                	width =e.clientX - canvas.offsetLeft;
-                	height = e.clientY - canvas.offsetTop;
-					ResizeRect();
-					 RedrawObjects();
-				Circle();
-                	}
+                if(startRectY-10 < curr_y && startRectY +heightRect+10 > curr_y  && startRectX-10 < curr_x && startRectX+10 > curr_x )
+                {
+                    document.getElementById("can").style.cursor = "e-resize";
+                    if (startRectX > curr_x){
+                        widthRect  =widthRect+startRectX-curr_x;    
+                    }
+                    else if (startRectX < curr_x || startRectX == curr_x){
+                        widthRect  =widthRect-(curr_x-startRectX);  
+                    }
+                    startRectX=curr_x;
                 }
-    		}
+                 else if(startRectY-10 < curr_y && startRectY +heightRect+10 > curr_y  && startRectX +widthRect-10 < curr_x && startRectX+widthRect+10 > curr_x )
+                {
+                    document.getElementById("can").style.cursor = "e-resize";
+                    if (startRectX+widthRect > curr_x){
+                        widthRect  =curr_x-startRectX;  
+                    }
+                    else if (startRectX+widthRect < curr_x || startRectX+widthRect == curr_x){
+                        widthRect  =curr_x-startRectX;  
+                    }   
+                }
+                 else if(startRectY-10 < curr_y && startRectY +10 > curr_y  && startRectX -10 < curr_x && startRectX+widthRect+10 > curr_x )
+                {
+                    document.getElementById("can").style.cursor = "n-resize";
+                    if (startRectY > curr_y){
+                        heightRect  =heightRect-curr_y+startRectY;  
+                    }
+                    else if (startRectY < curr_y || startRectY == curr_y){
+                        heightRect  =heightRect-curr_y+startRectY;
+                        
+                    }
+                    startRectY=curr_y;
+
+                    
+                }
+                 else if(startRectY+heightRect-10 < curr_y && startRectY+heightRect +10 > curr_y  && startRectX -10 < curr_x && startRectX+widthRect+10 > curr_x )
+                {
+                    document.getElementById("can").style.cursor = "n-resize";
+                    if (startRectY+heightRect > curr_y){
+                        heightRect  =curr_y-startRectY; 
+                    }
+                    else if (startRectY+heightRect < curr_y || startRectY+heightRect == curr_y){
+                        heightRect  =curr_y-startRectY;
+                        
+                    }
+
+                }
+                else
+                {
+                    document.getElementById("can").style.cursor = "pointer";
+                }
+                ResizeRect(startRectX,startRectY,widthRect,heightRect);
+                Circle();
+                RedrawObjects();         
+                    }
+                }
+            }
+        
     	
+        
 
    	else if (Action=="resizeCircle")
     	{
@@ -391,8 +436,8 @@
                 X_ =e.clientX - canvas.offsetLeft;
             	Y_ = e.clientY - canvas.offsetTop;
                 r_=Math.sqrt(Math.pow((X_ - circle.startX ), 2) + Math.pow((Y_- circle.startY), 2));
-if (r_==r)
-{		drag=true;}
+
+		drag=true;
                 }
             
             if (Mouse == 'up' || Mouse == "out") {
@@ -436,7 +481,7 @@ if (r_==r)
                 if (drag) {
                 	stopX =e.clientX - canvas.offsetLeft;
                 	stopY = e.clientY - canvas.offsetTop;
-                    ResizeRect();  
+            		ResizeRect(startRectX,startRectY,widthRect,heightRect);
 	  	 				Circle();	  	 			
 	  	 			 RedrawObjects()
 
@@ -471,7 +516,7 @@ if (r_==r)
                     if (drag) {
                     	currX_Ellipse =e.clientX - canvas.offsetLeft;
                     	currY_Ellipse = e.clientY - canvas.offsetTop;
-                        ResizeRect();  
+                		ResizeRect(startRectX,startRectY,widthRect,heightRect);
   	  	 				Circle();
   	  	 				RedrawObjects();
 	        	        drawEllipse(centerEllipseX ,centerEllipseY,Math.abs(currX_Ellipse-centerEllipseX),Math.abs(currY_Ellipse-centerEllipseY),color,PenThickness);			                   
@@ -520,7 +565,7 @@ if (r_==r)
                     if (drag) {
                     	currX_RoundRect =e.clientX - canvas.offsetLeft;
                     	currY_RoundRect = e.clientY - canvas.offsetTop;
-                        ResizeRect();  
+                		ResizeRect(startRectX,startRectY,widthRect,heightRect);
   	  	 				Circle();
   	  	 				RedrawObjects();
   	  	 			if ((currX_RoundRect-centerRoundRectX)>0&&(currY_RoundRect-centerRoundRectY)>0){
@@ -542,7 +587,6 @@ if (r_==r)
     
  // draw ellipse   
     function drawEllipse(EllipseCenterX,EllipseCenterY,radiusX, radiusY,colorEllipse,thickness) {
-  	  	
   		 if( EllipseCenterX>0 && EllipseCenterY>0&& radiusX>0&& radiusY>0){
       	contextEllipse.beginPath();
  		 contextEllipse.strokeStyle = colorEllipse;
@@ -568,14 +612,15 @@ if (r_==r)
 	  	contextRoundRect.arcTo(centerX,   centerY,   centerX+width, centerY,   radius);
 	  	contextRoundRect.stroke();
 	  	contextRoundRect.closePath();
- 		 
     }
 
 //canvas resized as window size change
     function resizeCanvas() {    	
         canvas.width = 3*window.innerWidth/4;
         canvas.height = 3*window.innerHeight/4; 
-        ResizeRect();
+	 	document.getElementById("height_no").max = canvas.height;
+	 	document.getElementById("width_no").max = canvas.width;
+		ResizeRect(startRectX,startRectY,widthRect,heightRect);
         RedrawObjects();
         Circle(); 
         Redraw();
@@ -590,7 +635,7 @@ if (r_==r)
 //change rectangle color
     function RectBackground(){
     rect_background=color;
-    ResizeRect();
+	ResizeRect(startRectX,startRectY,widthRect,heightRect);
     RedrawObjects();
     Circle();
     }
@@ -630,3 +675,6 @@ if (r_==r)
         
 	}
 		}
+
+
+
